@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\{
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('v1')
+->middleware(['auth:web'])
 ->group(function () {
 
     Route::get('/users', [UserApiController::class, 'index']);

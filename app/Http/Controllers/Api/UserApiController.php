@@ -18,7 +18,10 @@ class UserApiController extends Controller
 
     public function index(Request $request)
     {
-        $users = $this->user->inRandomOrder()->get();
+        $users = $this->user
+                        ->inRandomOrder()
+                        ->where('id', '!=', $request->user()->id)
+                        ->get();
 
         return UserResource::collection($users);
     }
