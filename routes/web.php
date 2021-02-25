@@ -5,7 +5,9 @@ use App\Http\Controllers\{
 };
 use Illuminate\Support\Facades\Route;
 
-Route::get('/chat', [ChatController::class, 'index'])->name('chat');
+Route::get('/chat', [ChatController::class, 'index'])
+        ->name('chat')
+        ->middleware('auth');
 
 Route::redirect('/', '/chat')->name('home');
 
