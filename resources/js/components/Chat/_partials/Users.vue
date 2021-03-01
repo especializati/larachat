@@ -35,7 +35,7 @@
     </div>
     <!-- users -->
     <ul class="flex flex-col chat-list">
-      <div v-for="(user, index) in users.data" :key="index">
+      <div v-for="(user, index) in allUsers" :key="index">
         <li
           class="bg-white hover:bg-gray-100 border-b p-4 cursor-pointer"
           :class="{ 'is-active': activeChat === index }"
@@ -79,7 +79,7 @@
 </template>
 
 <script>
-import { mapActions, mapState } from "vuex";
+import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
   mounted() {
@@ -87,9 +87,12 @@ export default {
   },
 
   computed: {
-      ...mapState({
-          users: (state) => state.users.users
-      })
+    //   ...mapState({
+    //       users: (state) => state.users.users
+    //   })
+    ...mapGetters({
+        allUsers: 'sortedUsers',
+    })
   },
 
   data() {

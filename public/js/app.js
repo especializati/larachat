@@ -2367,10 +2367,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     this.getUsers();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
-    users: function users(state) {
-      return state.users.users;
-    }
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+    allUsers: 'sortedUsers'
   })),
   data: function data() {
     return {
@@ -2519,7 +2517,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  sortedUsers: function sortedUsers(state) {
+    var users = state.users.data;
+    var onlineUsers = state.onlineUsers; // Sorted
+
+    users = users.sort(function (user) {
+      var index = onlineUsers.findIndex(function (u) {
+        return u.email === user.email;
+      });
+      return index === -1 ? 1 : -1;
+    }); // Map property online
+
+    users = users.map(function (user) {
+      var index = onlineUsers.findIndex(function (u) {
+        return u.email === user.email;
+      });
+      user.online = index != -1;
+      return user;
+    });
+    return users;
+  }
+});
 
 /***/ }),
 
@@ -50230,7 +50249,7 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "flex flex-col chat-list" },
-      _vm._l(_vm.users.data, function(user, index) {
+      _vm._l(_vm.allUsers, function(user, index) {
         return _c("div", { key: index }, [
           _c(
             "li",
