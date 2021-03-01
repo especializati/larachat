@@ -117,12 +117,14 @@ export default {
     ...mapMutations({
         addUserChat: 'ADD_USER_CONVERSATION',
     }),
-    ...mapActions(["getUsers"]),
+    ...mapActions(["getUsers", "getMessagesConversation"]),
 
     openChatWithUser (user) {
         this.activeChat = user.id
 
         this.addUserChat(user)
+
+        this.getMessagesConversation()
     }
   },
 };

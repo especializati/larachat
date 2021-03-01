@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-window is-active">
+  <div class="chat-window is-active" v-if="userConversation != null">
     <div class="chat-window__wrapper">
       <!-- chat header -->
       <div
@@ -26,7 +26,7 @@
               </svg>
             </span>
             <img
-              src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+              :src="[userConversation.photo != '' ? userConversation.photo : '/images/no-photo.png']"
               alt=""
               class="w-10 h-10 rounded-full"
             />
@@ -34,10 +34,10 @@
           <div class="flex flex-col leading-tight">
             <div class="mt-1 flex items-center">
               <span class="text-lg font-medium text-gray-700 mr-3">{{
-                "Carlos Ferreira"
+                userConversation.name
               }}</span>
             </div>
-            <span class="text-sm text-muted">Junior Developer</span>
+            <span class="text-sm text-muted">{{ userConversation.email }}</span>
           </div>
         </div>
         <div class="flex items-center space-x-2">
@@ -239,5 +239,13 @@
 </template>
 
 <script>
-export default {};
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
+
+export default {
+    computed: {
+        ...mapState({
+            userConversation: (state) => state.chat.userConversation
+        })
+    },
+};
 </script>

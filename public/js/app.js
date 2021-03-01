@@ -1966,6 +1966,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2206,7 +2213,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    userConversation: function userConversation(state) {
+      return state.chat.userConversation;
+    }
+  }))
+});
 
 /***/ }),
 
@@ -2390,10 +2404,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
     addUserChat: 'ADD_USER_CONVERSATION'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers"])), {}, {
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers", "getMessagesConversation"])), {}, {
     openChatWithUser: function openChatWithUser(user) {
       this.activeChat = user.id;
       this.addUserChat(user);
+      this.getMessagesConversation();
     }
   })
 });
@@ -2540,6 +2555,7 @@ __webpack_require__.r(__webpack_exports__);
     getMessagesConversation: function getMessagesConversation(_ref) {
       var state = _ref.state,
           commit = _ref.commit;
+      commit('CLEAR_MESSAGES');
       return axios.get("/api/v1/messages/".concat(state.userConversation.id)).then(function (response) {
         return commit('ADD_MESSAGES', response.data.data);
       });
@@ -49723,175 +49739,29 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "chat-window is-active" }, [
-    _c("div", { staticClass: "chat-window__wrapper" }, [
-      _c(
-        "div",
-        {
-          staticClass:
-            "chat-window__header bg-white px-6 py-2 h-20 flex md:items-center justify-between border-b-2 border-gray-200"
-        },
-        [
-          _c("div", { staticClass: "flex items-center space-x-4" }, [
-            _c(
-              "div",
-              {
-                staticClass:
-                  "cursor-pointer lg:pointer-events-none rounded-full flex items-center hover:bg-gray-100 pl-2"
-              },
-              [
-                _c("span", { staticClass: "lg:hidden text-gray-500" }, [
-                  _c(
-                    "svg",
-                    {
-                      staticClass: "w-4 h-4 mr-2",
-                      attrs: {
-                        fill: "none",
-                        stroke: "currentColor",
-                        viewBox: "0 0 24 24",
-                        xmlns: "http://www.w3.org/2000/svg"
-                      }
-                    },
-                    [
-                      _c("path", {
-                        attrs: {
-                          "stroke-linecap": "round",
-                          "stroke-linejoin": "round",
-                          "stroke-width": "2",
-                          d: "M10 19l-7-7m0 0l7-7m-7 7h18"
-                        }
-                      })
-                    ]
-                  )
-                ]),
-                _vm._v(" "),
-                _c("img", {
-                  staticClass: "w-10 h-10 rounded-full",
-                  attrs: {
-                    src:
-                      "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                    alt: ""
-                  }
-                })
-              ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "flex flex-col leading-tight" }, [
-              _c("div", { staticClass: "mt-1 flex items-center" }, [
-                _c(
-                  "span",
-                  { staticClass: "text-lg font-medium text-gray-700 mr-3" },
-                  [_vm._v(_vm._s("Carlos Ferreira"))]
-                )
-              ]),
-              _vm._v(" "),
-              _c("span", { staticClass: "text-sm text-muted" }, [
-                _vm._v("Junior Developer")
-              ])
-            ])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "flex items-center space-x-2" }, [
-            _c(
-              "button",
-              {
-                staticClass:
-                  "inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none",
-                attrs: { type: "button" }
-              },
-              [
-                _c(
-                  "svg",
-                  {
-                    staticClass: "h-6 w-6",
-                    attrs: {
-                      xmlns: "http://www.w3.org/2000/svg",
-                      fill: "none",
-                      viewBox: "0 0 24 24",
-                      stroke: "currentColor"
-                    }
-                  },
-                  [
-                    _c("path", {
-                      attrs: {
-                        "stroke-linecap": "round",
-                        "stroke-linejoin": "round",
-                        "stroke-width": "2",
-                        d:
-                          "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-                      }
-                    })
-                  ]
-                )
-              ]
-            )
-          ])
-        ]
-      ),
-      _vm._v(" "),
-      _c("div", { staticClass: "chat-window__messages-wrapper" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "chat-input w-full px-4 mb-4" }, [
+  return _vm.userConversation != null
+    ? _c("div", { staticClass: "chat-window is-active" }, [
+        _c("div", { staticClass: "chat-window__wrapper" }, [
           _c(
             "div",
             {
               staticClass:
-                "flex flex-row items-center h-16 rounded-xl px-4 bg-white"
+                "chat-window__header bg-white px-6 py-2 h-20 flex md:items-center justify-between border-b-2 border-gray-200"
             },
             [
-              _c("div", [
+              _c("div", { staticClass: "flex items-center space-x-4" }, [
                 _c(
-                  "button",
+                  "div",
                   {
                     staticClass:
-                      "flex items-center justify-center text-gray-400 hover:text-gray-600"
+                      "cursor-pointer lg:pointer-events-none rounded-full flex items-center hover:bg-gray-100 pl-2"
                   },
                   [
-                    _c(
-                      "svg",
-                      {
-                        staticClass: "w-5 h-5",
-                        attrs: {
-                          fill: "none",
-                          stroke: "currentColor",
-                          viewBox: "0 0 24 24",
-                          xmlns: "http://www.w3.org/2000/svg"
-                        }
-                      },
-                      [
-                        _c("path", {
-                          attrs: {
-                            "stroke-linecap": "round",
-                            "stroke-linejoin": "round",
-                            "stroke-width": "2",
-                            d:
-                              "M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                          }
-                        })
-                      ]
-                    )
-                  ]
-                )
-              ]),
-              _vm._v(" "),
-              _vm._m(1),
-              _vm._v(" "),
-              _c("div", { staticClass: "ml-4" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass:
-                      "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
-                  },
-                  [
-                    _c("span", [_vm._v("Enviar")]),
-                    _vm._v(" "),
-                    _c("span", { staticClass: "ml-2" }, [
+                    _c("span", { staticClass: "lg:hidden text-gray-500" }, [
                       _c(
                         "svg",
                         {
-                          staticClass: "w-4 h-4 transform rotate-45 -mt-px",
+                          staticClass: "w-4 h-4 mr-2",
                           attrs: {
                             fill: "none",
                             stroke: "currentColor",
@@ -49905,21 +49775,172 @@ var render = function() {
                               "stroke-linecap": "round",
                               "stroke-linejoin": "round",
                               "stroke-width": "2",
-                              d: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                              d: "M10 19l-7-7m0 0l7-7m-7 7h18"
                             }
                           })
                         ]
                       )
-                    ])
+                    ]),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "w-10 h-10 rounded-full",
+                      attrs: {
+                        src: [
+                          _vm.userConversation.photo != ""
+                            ? _vm.userConversation.photo
+                            : "/images/no-photo.png"
+                        ],
+                        alt: ""
+                      }
+                    })
+                  ]
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "flex flex-col leading-tight" }, [
+                  _c("div", { staticClass: "mt-1 flex items-center" }, [
+                    _c(
+                      "span",
+                      { staticClass: "text-lg font-medium text-gray-700 mr-3" },
+                      [_vm._v(_vm._s(_vm.userConversation.name))]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _c("span", { staticClass: "text-sm text-muted" }, [
+                    _vm._v(_vm._s(_vm.userConversation.email))
+                  ])
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "flex items-center space-x-2" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none",
+                    attrs: { type: "button" }
+                  },
+                  [
+                    _c(
+                      "svg",
+                      {
+                        staticClass: "h-6 w-6",
+                        attrs: {
+                          xmlns: "http://www.w3.org/2000/svg",
+                          fill: "none",
+                          viewBox: "0 0 24 24",
+                          stroke: "currentColor"
+                        }
+                      },
+                      [
+                        _c("path", {
+                          attrs: {
+                            "stroke-linecap": "round",
+                            "stroke-linejoin": "round",
+                            "stroke-width": "2",
+                            d:
+                              "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+                          }
+                        })
+                      ]
+                    )
                   ]
                 )
               ])
             ]
-          )
+          ),
+          _vm._v(" "),
+          _c("div", { staticClass: "chat-window__messages-wrapper" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c("div", { staticClass: "chat-input w-full px-4 mb-4" }, [
+              _c(
+                "div",
+                {
+                  staticClass:
+                    "flex flex-row items-center h-16 rounded-xl px-4 bg-white"
+                },
+                [
+                  _c("div", [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "flex items-center justify-center text-gray-400 hover:text-gray-600"
+                      },
+                      [
+                        _c(
+                          "svg",
+                          {
+                            staticClass: "w-5 h-5",
+                            attrs: {
+                              fill: "none",
+                              stroke: "currentColor",
+                              viewBox: "0 0 24 24",
+                              xmlns: "http://www.w3.org/2000/svg"
+                            }
+                          },
+                          [
+                            _c("path", {
+                              attrs: {
+                                "stroke-linecap": "round",
+                                "stroke-linejoin": "round",
+                                "stroke-width": "2",
+                                d:
+                                  "M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
+                              }
+                            })
+                          ]
+                        )
+                      ]
+                    )
+                  ]),
+                  _vm._v(" "),
+                  _vm._m(1),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "ml-4" }, [
+                    _c(
+                      "button",
+                      {
+                        staticClass:
+                          "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+                      },
+                      [
+                        _c("span", [_vm._v("Enviar")]),
+                        _vm._v(" "),
+                        _c("span", { staticClass: "ml-2" }, [
+                          _c(
+                            "svg",
+                            {
+                              staticClass: "w-4 h-4 transform rotate-45 -mt-px",
+                              attrs: {
+                                fill: "none",
+                                stroke: "currentColor",
+                                viewBox: "0 0 24 24",
+                                xmlns: "http://www.w3.org/2000/svg"
+                              }
+                            },
+                            [
+                              _c("path", {
+                                attrs: {
+                                  "stroke-linecap": "round",
+                                  "stroke-linejoin": "round",
+                                  "stroke-width": "2",
+                                  d: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                }
+                              })
+                            ]
+                          )
+                        ])
+                      ]
+                    )
+                  ])
+                ]
+              )
+            ])
+          ])
         ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
