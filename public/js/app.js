@@ -2275,6 +2275,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2354,22 +2361,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {
+    this.getUsers();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+    users: function users(state) {
+      return state.users.users;
+    }
+  })),
   data: function data() {
     return {
       selected: "inbox",
-      activeChat: 0,
-      users: [{
-        id: 1,
-        name: "Carlos",
-        label: "Novas Mensagens"
-      }, {
-        id: 2,
-        name: "Outro User",
-        label: "Novas Mensagens"
-      }]
+      activeChat: 0
     };
-  }
+  },
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers"]))
 });
 
 /***/ }),
@@ -50181,7 +50190,7 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "flex flex-col chat-list" },
-      _vm._l(_vm.users, function(user, index) {
+      _vm._l(_vm.users.data, function(user, index) {
         return _c("div", { key: index }, [
           _c(
             "li",
@@ -50196,31 +50205,34 @@ var render = function() {
                   _c("img", {
                     staticClass: "w-12 h-12 rounded-full",
                     attrs: {
-                      src:
-                        "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                      alt: ""
+                      src: [
+                        user.photo != "" ? user.photo : "/images/no-photo.png"
+                      ],
+                      alt: user.name
                     }
                   }),
                   _vm._v(" "),
-                  _c(
-                    "span",
-                    {
-                      staticClass:
-                        "text-green-500 absolute -bottom-0.5 -right-0.5 rounded-full bg-white border-white border-4"
-                    },
-                    [
-                      _c("svg", { attrs: { width: "10", height: "10" } }, [
-                        _c("circle", {
-                          attrs: {
-                            cx: "5",
-                            cy: "5",
-                            r: "5",
-                            fill: "currentColor"
-                          }
-                        })
-                      ])
-                    ]
-                  )
+                  user.online
+                    ? _c(
+                        "span",
+                        {
+                          staticClass:
+                            "text-green-500 absolute -bottom-0.5 -right-0.5 rounded-full bg-white border-white border-4"
+                        },
+                        [
+                          _c("svg", { attrs: { width: "10", height: "10" } }, [
+                            _c("circle", {
+                              attrs: {
+                                cx: "5",
+                                cy: "5",
+                                r: "5",
+                                fill: "currentColor"
+                              }
+                            })
+                          ])
+                        ]
+                      )
+                    : _vm._e()
                 ]),
                 _vm._v(" "),
                 _c("div", { staticClass: "flex flex-col leading-tight mx-4" }, [
@@ -50237,24 +50249,9 @@ var render = function() {
                   _c(
                     "span",
                     { staticClass: "text-sm text-truncate text-muted-alt" },
-                    [
-                      _vm._v(
-                        "\n              " +
-                          _vm._s(user.label) +
-                          "\n            "
-                      )
-                    ]
+                    [_vm._v("\n              -\n            ")]
                   )
                 ]),
-                _vm._v(" "),
-                _c(
-                  "time",
-                  {
-                    staticClass:
-                      "absolute top-0 right-0 text-xs font-medium text-muted"
-                  },
-                  [_vm._v("22/02/2024")]
-                ),
                 _vm._v(" "),
                 _c(
                   "span",
