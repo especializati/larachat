@@ -66,116 +66,24 @@
         <!-- chat msgs  -->
         <div class="chat-window__messages-inner">
           <div class="chat-messages">
-            <div class="his-message">
+            <div
+                v-for="(message, index) in messages"
+                :key="index"
+                :class="[message.me ? 'my-message' : 'his-message']">
               <div class="inner">
-                <div class="profile">
+                <div class="profile" v-if="!message.me">
                   <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
+                    :src="[message.sender.photo != '' ? message.sender.photo : '/images/no-photo.png']"
+                    :alt="message.sender.name"
                     class="w-10 h-10 rounded-full"
                   />
                 </div>
                 <div class="ballon-text">
-                  <div>Hey How are you today?</div>
+                  <div>{{ message.message }}</div>
                 </div>
               </div>
             </div>
-            <div class="his-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                    Vel ipsa commodi illum saepe numquam maxime asperiores
-                    voluptate sit, minima perspiciatis.
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="my-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>I'm ok what about you?</div>
-                </div>
-              </div>
-            </div>
-            <div class="my-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="his-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>Lorem ipsum dolor sit amet !</div>
-                </div>
-              </div>
-            </div>
-            <div class="my-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing. ?
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="his-message">
-              <div class="inner">
-                <div class="profile">
-                  <img
-                    src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
-                    alt=""
-                    class="w-10 h-10 rounded-full"
-                  />
-                </div>
-                <div class="ballon-text">
-                  <div>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                    Perspiciatis, in.
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          </div><!--chat-messages-->
         </div>
         <!-- footer envia mensagem -->
         <div class="chat-input w-full px-4 mb-4">
@@ -244,7 +152,8 @@ import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 export default {
     computed: {
         ...mapState({
-            userConversation: (state) => state.chat.userConversation
+            userConversation: (state) => state.chat.userConversation,
+            messages: (state) => state.chat.messages,
         })
     },
 };

@@ -2121,103 +2121,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
     userConversation: function userConversation(state) {
       return state.chat.userConversation;
+    },
+    messages: function messages(state) {
+      return state.chat.messages;
     }
   }))
 });
@@ -49850,7 +49761,45 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("div", { staticClass: "chat-window__messages-wrapper" }, [
-            _vm._m(0),
+            _c("div", { staticClass: "chat-window__messages-inner" }, [
+              _c(
+                "div",
+                { staticClass: "chat-messages" },
+                _vm._l(_vm.messages, function(message, index) {
+                  return _c(
+                    "div",
+                    {
+                      key: index,
+                      class: [message.me ? "my-message" : "his-message"]
+                    },
+                    [
+                      _c("div", { staticClass: "inner" }, [
+                        !message.me
+                          ? _c("div", { staticClass: "profile" }, [
+                              _c("img", {
+                                staticClass: "w-10 h-10 rounded-full",
+                                attrs: {
+                                  src: [
+                                    message.sender.photo != ""
+                                      ? message.sender.photo
+                                      : "/images/no-photo.png"
+                                  ],
+                                  alt: message.sender.name
+                                }
+                              })
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "ballon-text" }, [
+                          _c("div", [_vm._v(_vm._s(message.message))])
+                        ])
+                      ])
+                    ]
+                  )
+                }),
+                0
+              )
+            ]),
             _vm._v(" "),
             _c("div", { staticClass: "chat-input w-full px-4 mb-4" }, [
               _c(
@@ -49895,7 +49844,7 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(1),
+                  _vm._m(0),
                   _vm._v(" "),
                   _c("div", { staticClass: "ml-4" }, [
                     _c(
@@ -49943,163 +49892,6 @@ var render = function() {
     : _vm._e()
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "chat-window__messages-inner" }, [
-      _c("div", { staticClass: "chat-messages" }, [
-        _c("div", { staticClass: "his-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [_vm._v("Hey How are you today?")])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "his-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [
-                _vm._v(
-                  "\n                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.\n                  Vel ipsa commodi illum saepe numquam maxime asperiores\n                  voluptate sit, minima perspiciatis.\n                "
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [_vm._v("I'm ok what about you?")])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [
-                _vm._v(
-                  "\n                  Lorem ipsum dolor sit, amet consectetur adipisicing. ?\n                "
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "his-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [_vm._v("Lorem ipsum dolor sit amet !")])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "my-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [
-                _vm._v(
-                  "\n                  Lorem ipsum dolor sit, amet consectetur adipisicing. ?\n                "
-                )
-              ])
-            ])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "his-message" }, [
-          _c("div", { staticClass: "inner" }, [
-            _c("div", { staticClass: "profile" }, [
-              _c("img", {
-                staticClass: "w-10 h-10 rounded-full",
-                attrs: {
-                  src:
-                    "https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=144&h=144",
-                  alt: ""
-                }
-              })
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "ballon-text" }, [
-              _c("div", [
-                _vm._v(
-                  "\n                  Lorem ipsum dolor sit amet consectetur adipisicing elit.\n                  Perspiciatis, in.\n                "
-                )
-              ])
-            ])
-          ])
-        ])
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
