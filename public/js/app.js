@@ -2383,6 +2383,25 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./resources/js/Echo.js":
+/*!******************************!*\
+  !*** ./resources/js/Echo.js ***!
+  \******************************/
+/***/ (() => {
+
+window.Echo.join('larachat_database_chatroom').here(function (users) {
+  console.log('Usuários Online:');
+  console.log(users);
+}).joining(function (user) {
+  console.log('Entrou:');
+  console.log(user);
+}).leaving(function (user) {
+  console.log('Saiu:');
+  console.log(user);
+});
+
+/***/ }),
+
 /***/ "./resources/js/app.js":
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
@@ -2455,6 +2474,8 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__.default({
   broadcaster: 'socket.io',
   host: window.location.hostname + ':6001'
 });
+
+__webpack_require__(/*! ./Echo */ "./resources/js/Echo.js");
 
 /***/ }),
 
