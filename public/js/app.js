@@ -2363,6 +2363,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
@@ -2383,11 +2384,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       selected: "inbox",
-      activeChat: 0,
+      activeChat: null,
       filter: ''
     };
   },
-  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers"]))
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
+    addUserChat: 'ADD_USER_CONVERSATION'
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers"])), {}, {
+    openChatWithUser: function openChatWithUser(user) {
+      this.activeChat = user.id;
+      this.addUserChat(user);
+    }
+  })
 });
 
 /***/ }),
@@ -50332,9 +50340,19 @@ var render = function() {
           _c(
             "li",
             {
-              staticClass:
-                "bg-white hover:bg-gray-100 border-b p-4 cursor-pointer",
-              class: { "is-active": _vm.activeChat === index }
+              class: [
+                "hover:bg-gray-100",
+                "border-b",
+                "p-4",
+                "cursor-pointer",
+                _vm.activeChat === user.id ? "is-active" : "bg-white"
+              ],
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.openChatWithUser(user)
+                }
+              }
             },
             [
               _c("div", { staticClass: "flex items-center relative" }, [

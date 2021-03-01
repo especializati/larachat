@@ -38,8 +38,9 @@
     <ul class="flex flex-col chat-list">
       <div v-for="(user, index) in users" :key="index">
         <li
-          class="bg-white hover:bg-gray-100 border-b p-4 cursor-pointer"
-          :class="{ 'is-active': activeChat === index }"
+          @click.prevent="openChatWithUser(user)"
+          :class="['hover:bg-gray-100', 'border-b', 'p-4', 'cursor-pointer',
+          activeChat === user.id ? 'is-active' : 'bg-white' ]"
         >
           <div class="flex items-center relative">
             <div class="relative">
@@ -80,7 +81,7 @@
 </template>
 
 <script>
-import { mapActions, mapState, mapGetters } from "vuex";
+import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
   mounted() {
@@ -107,13 +108,22 @@ export default {
   data() {
     return {
       selected: "inbox",
-      activeChat: 0,
+      activeChat: null,
       filter: ''
     };
   },
 
   methods: {
+    ...mapMutations({
+        addUserChat: 'ADD_USER_CONVERSATION',
+    }),
     ...mapActions(["getUsers"]),
+
+    openChatWithUser (user) {
+        this.activeChat = user.id
+
+        this.addUserChat(user)
+    }
   },
 };
 </script>
