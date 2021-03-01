@@ -2362,18 +2362,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.getUsers();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
     allUsers: 'sortedUsers'
-  })),
+  })), {}, {
+    users: function users() {
+      var _this = this;
+
+      return this.allUsers.filter(function (user) {
+        if (_this.filter === '') return user;
+        return user.name.includes(_this.filter) || user.email === _this.filter;
+      });
+    }
+  }),
   data: function data() {
     return {
       selected: "inbox",
-      activeChat: 0
+      activeChat: 0,
+      filter: ''
     };
   },
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers"]))
@@ -50197,14 +50208,31 @@ var render = function() {
           staticClass:
             "text-xl font-semibold tracking-wide mt-5 hidden lg:block"
         },
-        [_vm._v("\n      Conversas\n    ")]
+        [_vm._v("\n      Usuários\n    ")]
       ),
       _vm._v(" "),
       _c("div", { staticClass: "relative my-5 text-gray-600" }, [
         _c("input", {
+          directives: [
+            {
+              name: "model",
+              rawName: "v-model",
+              value: _vm.filter,
+              expression: "filter"
+            }
+          ],
           staticClass:
             "w-full bg-gray-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none focus:shadow-lg focus:bg-white hover:shadow-md",
-          attrs: { type: "search", name: "serch", placeholder: "Search" }
+          attrs: { type: "search", name: "serch", placeholder: "Search" },
+          domProps: { value: _vm.filter },
+          on: {
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.filter = $event.target.value
+            }
+          }
         }),
         _vm._v(" "),
         _c(
@@ -50249,7 +50277,7 @@ var render = function() {
     _c(
       "ul",
       { staticClass: "flex flex-col chat-list" },
-      _vm._l(_vm.allUsers, function(user, index) {
+      _vm._l(_vm.users, function(user, index) {
         return _c("div", { key: index }, [
           _c(
             "li",

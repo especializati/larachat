@@ -2,12 +2,13 @@
   <div class="chat-sidebar">
     <div class="px-8 lg:py-4 lg:px-6">
       <h3 class="text-xl font-semibold tracking-wide mt-5 hidden lg:block">
-        Conversas
+        Usuários
       </h3>
       <div class="relative my-5 text-gray-600">
         <input
           type="search"
           name="serch"
+          v-model="filter"
           placeholder="Search"
           class="w-full bg-gray-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none focus:shadow-lg focus:bg-white hover:shadow-md"
         />
@@ -35,7 +36,7 @@
     </div>
     <!-- users -->
     <ul class="flex flex-col chat-list">
-      <div v-for="(user, index) in allUsers" :key="index">
+      <div v-for="(user, index) in users" :key="index">
         <li
           class="bg-white hover:bg-gray-100 border-b p-4 cursor-pointer"
           :class="{ 'is-active': activeChat === index }"
@@ -92,13 +93,22 @@ export default {
     //   })
     ...mapGetters({
         allUsers: 'sortedUsers',
-    })
+    }),
+
+    users () {
+        return this.allUsers.filter(user => {
+            if (this.filter === '') return user;
+
+            return user.name.includes(this.filter) || user.email === this.filter
+        })
+    }
   },
 
   data() {
     return {
       selected: "inbox",
       activeChat: 0,
+      filter: ''
     };
   },
 
