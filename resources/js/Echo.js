@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import store from './vuex/store'
 
 const userId = window.Laravel.user
@@ -5,6 +6,11 @@ const userId = window.Laravel.user
 window.Echo.channel(`larachat_database_private-chat.${userId}`)
 .listen('NewMessageCreated', (e) => {
     console.log(e.message)
+    let conversation = e.message
+
+    Vue.$vToastify.success(`
+        Messagem: ${conversation.message}
+    `, `${conversation.sender.name} te enviou uma nova mensagem`)
 })
 
 window.Echo.join('larachat_database_chatroom')
