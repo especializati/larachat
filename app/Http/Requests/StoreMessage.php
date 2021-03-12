@@ -24,7 +24,7 @@ class StoreMessage extends FormRequest
     public function rules()
     {
         return [
-            'message' => ['required', 'min:3', 'max:10000'],
+            'message' => ['required', 'min:2', 'max:10000'],
             'receiver_id' => ['required', 'exists:users,id'],
         ];
     }

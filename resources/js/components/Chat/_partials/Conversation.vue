@@ -111,16 +111,22 @@
             <div class="flex-grow ml-4">
               <div class="relative w-full">
                 <input
+                  v-model="message"
                   type="text"
+                  v-on:keyup.enter="sendMessage"
                   class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10"
                 />
               </div>
             </div>
             <div class="ml-4">
               <button
+                :disabled="disabledButton"
+                type="submit"
+                @click.prevent="sendMessage"
                 class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
               >
-                <span>Enviar</span>
+                <span v-if="sendingMessage">Enviando...</span>
+                <span v-else>Enviar</span>
                 <span class="ml-2">
                   <svg
                     class="w-4 h-4 transform rotate-45 -mt-px"
@@ -154,10 +160,23 @@ export default {
         ...mapState({
             userConversation: (state) => state.chat.userConversation,
             messages: (state) => state.chat.messages,
-        })
+        }),
+
+        disabledButton () {
+            return this.message.length < 2 || this.sendingMessage
+        }
+    },
+
+    data() {
+        return {
+            message: '',
+            sendingMessage: false
+        }
     },
 
     methods: {
+        ...mapActions(['sendNewMessage']),
+
         scrollMessages () {
             setTimeout(() => {
                 //this.$refs.messages.scrollTo(0, this.$refs.messages.scrollHeight)
@@ -167,6 +186,18 @@ export default {
                     behavior: 'smooth'
                 })
             }, 10)
+        },
+
+        sendMessage () {
+            if (this.disabledButton) return;
+
+            this.sendingMessage = true
+
+            this.sendNewMessage(this.message)
+                    .then(response => {
+                        this.message = ''
+                    })
+                    .finally(() => this.sendingMessage = false)
         }
     },
 

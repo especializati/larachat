@@ -2121,17 +2121,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
     userConversation: function userConversation(state) {
       return state.chat.userConversation;
     },
     messages: function messages(state) {
       return state.chat.messages;
     }
-  })),
-  methods: {
+  })), {}, {
+    disabledButton: function disabledButton() {
+      return this.message.length < 2 || this.sendingMessage;
+    }
+  }),
+  data: function data() {
+    return {
+      message: '',
+      sendingMessage: false
+    };
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage'])), {}, {
     scrollMessages: function scrollMessages() {
       var _this = this;
 
@@ -2143,8 +2159,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           behavior: 'smooth'
         });
       }, 10);
+    },
+    sendMessage: function sendMessage() {
+      var _this2 = this;
+
+      if (this.disabledButton) return;
+      this.sendingMessage = true;
+      this.sendNewMessage(this.message).then(function (response) {
+        _this2.message = '';
+      })["finally"](function () {
+        return _this2.sendingMessage = false;
+      });
     }
-  },
+  }),
   watch: {
     messages: function messages() {
       this.scrollMessages();
@@ -2479,6 +2506,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
     userConversation: null,
@@ -2508,6 +2541,20 @@ __webpack_require__.r(__webpack_exports__);
       commit('CLEAR_MESSAGES');
       return axios.get("/api/v1/messages/".concat(state.userConversation.id)).then(function (response) {
         return commit('ADD_MESSAGES', response.data.data);
+      });
+    },
+    sendNewMessage: function sendNewMessage(_ref2, message) {
+      var state = _ref2.state,
+          commit = _ref2.commit;
+      return axios.post('/api/v1/messages', {
+        message: message,
+        receiver_id: state.userConversation.id
+      }).then(function (response) {
+        commit('ADD_MESSAGE', {
+          message: message,
+          receiver: _objectSpread({}, state.userConversation),
+          me: true
+        });
       });
     }
   },
@@ -49887,17 +49934,66 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
-                  _vm._m(0),
+                  _c("div", { staticClass: "flex-grow ml-4" }, [
+                    _c("div", { staticClass: "relative w-full" }, [
+                      _c("input", {
+                        directives: [
+                          {
+                            name: "model",
+                            rawName: "v-model",
+                            value: _vm.message,
+                            expression: "message"
+                          }
+                        ],
+                        staticClass:
+                          "flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10",
+                        attrs: { type: "text" },
+                        domProps: { value: _vm.message },
+                        on: {
+                          keyup: function($event) {
+                            if (
+                              !$event.type.indexOf("key") &&
+                              _vm._k(
+                                $event.keyCode,
+                                "enter",
+                                13,
+                                $event.key,
+                                "Enter"
+                              )
+                            ) {
+                              return null
+                            }
+                            return _vm.sendMessage($event)
+                          },
+                          input: function($event) {
+                            if ($event.target.composing) {
+                              return
+                            }
+                            _vm.message = $event.target.value
+                          }
+                        }
+                      })
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c("div", { staticClass: "ml-4" }, [
                     _c(
                       "button",
                       {
                         staticClass:
-                          "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0"
+                          "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0",
+                        attrs: { disabled: _vm.disabledButton, type: "submit" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            return _vm.sendMessage($event)
+                          }
+                        }
                       },
                       [
-                        _c("span", [_vm._v("Enviar")]),
+                        _vm.sendingMessage
+                          ? _c("span", [_vm._v("Enviando...")])
+                          : _c("span", [_vm._v("Enviar")]),
                         _vm._v(" "),
                         _c("span", { staticClass: "ml-2" }, [
                           _c(
@@ -49934,22 +50030,7 @@ var render = function() {
       ])
     : _vm._e()
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "flex-grow ml-4" }, [
-      _c("div", { staticClass: "relative w-full" }, [
-        _c("input", {
-          staticClass:
-            "flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10",
-          attrs: { type: "text" }
-        })
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
