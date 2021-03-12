@@ -2342,7 +2342,13 @@ var userId = window.Laravel.user;
 window.Echo.channel("larachat_database_private-chat.".concat(userId)).listen('NewMessageCreated', function (e) {
   console.log(e.message);
   var conversation = e.message;
-  vue__WEBPACK_IMPORTED_MODULE_1__.default.$vToastify.success("\n        Messagem: ".concat(conversation.message, "\n    "), "".concat(conversation.sender.name, " te enviou uma nova mensagem"));
+
+  if (_vuex_store__WEBPACK_IMPORTED_MODULE_0__.default.state.chat.userConversation == null || _vuex_store__WEBPACK_IMPORTED_MODULE_0__.default.state.chat.userConversation.id != conversation.sender.id) {
+    vue__WEBPACK_IMPORTED_MODULE_1__.default.$vToastify.success("\n                Messagem: ".concat(conversation.message, "\n            "), "".concat(conversation.sender.name, " te enviou uma nova mensagem"));
+  } else {
+    conversation.me = false;
+    _vuex_store__WEBPACK_IMPORTED_MODULE_0__.default.state.chat.messages.push(conversation);
+  }
 });
 window.Echo.join('larachat_database_chatroom').here(function (users) {
   console.log('Usuários Online:');

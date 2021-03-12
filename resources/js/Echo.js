@@ -8,9 +8,15 @@ window.Echo.channel(`larachat_database_private-chat.${userId}`)
     console.log(e.message)
     let conversation = e.message
 
-    Vue.$vToastify.success(`
-        Messagem: ${conversation.message}
-    `, `${conversation.sender.name} te enviou uma nova mensagem`)
+    if (store.state.chat.userConversation == null
+        || store.state.chat.userConversation.id != conversation.sender.id) {
+            Vue.$vToastify.success(`
+                Messagem: ${conversation.message}
+            `, `${conversation.sender.name} te enviou uma nova mensagem`)
+        } else {
+            conversation.me = false
+            store.state.chat.messages.push(conversation)
+        }
 })
 
 window.Echo.join('larachat_database_chatroom')
