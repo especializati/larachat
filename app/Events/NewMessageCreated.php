@@ -36,6 +36,7 @@ class NewMessageCreated implements ShouldBroadcast
     {
         return [
             new Channel('chatroom'),
+            new PrivateChannel('chat.' . $this->message->receiver_id)
         ];
     }
 }
