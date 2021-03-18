@@ -2239,12 +2239,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  mounted: function mounted() {
-    this.getUsers();
+  props: {
+    allUsers: {
+      require: true,
+      type: Array
+    },
+    title: {
+      require: true,
+      type: String
+    }
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)({
-    allUsers: 'sortedUsers'
-  })), {}, {
+  computed: {
     users: function users() {
       var _this = this;
 
@@ -2253,7 +2258,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return user.name.includes(_this.filter) || user.email === _this.filter;
       });
     }
-  }),
+  },
   data: function data() {
     return {
       selected: "inbox",
@@ -2263,7 +2268,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   },
   methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
     addUserChat: 'ADD_USER_CONVERSATION'
-  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getUsers", "getMessagesConversation"])), {}, {
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(["getMessagesConversation"])), {}, {
     openChatWithUser: function openChatWithUser(user) {
       this.activeChat = user.id;
       this.addUserChat(user);
@@ -2394,13 +2399,34 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Chat/Users */ "./resources/js/components/Chat/Users.vue");
+/* harmony import */ var _components_Chat_Conversation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Chat/Conversation */ "./resources/js/components/Chat/Conversation.vue");
 //
 //
 //
 //
 //
 //
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
+//
+
+
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {// this.getUsers();
+  },
+  computed: {},
+  data: function data() {
+    return {
+      allUsers: []
+    };
+  },
+  methods: {//...mapActions(["getUsers"]),
+  },
+  components: {
+    Users: _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__.default,
+    Conversation: _components_Chat_Conversation__WEBPACK_IMPORTED_MODULE_1__.default
+  }
+});
 
 /***/ }),
 
@@ -2415,8 +2441,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Chat/Users */ "./resources/js/components/Chat/Users.vue");
 /* harmony import */ var _components_Chat_Conversation__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../components/Chat/Conversation */ "./resources/js/components/Chat/Conversation.vue");
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2424,9 +2457,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {
+    // if (this.allUsers.length === 0)
+    this.getUsers();
+  },
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+    allUsers: 'sortedUsers'
+  })),
+  methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["getUsers"])),
   components: {
     Users: _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__.default,
     Conversation: _components_Chat_Conversation__WEBPACK_IMPORTED_MODULE_1__.default
@@ -50363,7 +50405,7 @@ var render = function() {
           staticClass:
             "text-xl font-semibold tracking-wide mt-5 hidden lg:block"
         },
-        [_vm._v("\n      Usuários\n    ")]
+        [_vm._v("\n      " + _vm._s(_vm.title) + "\n    ")]
       ),
       _vm._v(" "),
       _c("div", { staticClass: "relative my-5 text-gray-600" }, [
@@ -50712,7 +50754,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    #favoritos\n")])
+  return _c(
+    "div",
+    { staticClass: "chat-container relative" },
+    [
+      _c("users", { attrs: { "all-users": _vm.allUsers, title: "Favoritos" } }),
+      _vm._v(" "),
+      _c("conversation")
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -50740,7 +50791,11 @@ var render = function() {
   return _c(
     "div",
     { staticClass: "chat-container relative" },
-    [_c("users"), _vm._v(" "), _c("conversation")],
+    [
+      _c("users", { attrs: { "all-users": _vm.allUsers, title: "Usuários" } }),
+      _vm._v(" "),
+      _c("conversation")
+    ],
     1
   )
 }

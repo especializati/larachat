@@ -2,7 +2,7 @@
   <div class="chat-sidebar">
     <div class="px-8 lg:py-4 lg:px-6">
       <h3 class="text-xl font-semibold tracking-wide mt-5 hidden lg:block">
-        Usuários
+        {{ title }}
       </h3>
       <div class="relative my-5 text-gray-600">
         <input
@@ -84,17 +84,19 @@
 import { mapActions, mapState, mapGetters, mapMutations } from "vuex";
 
 export default {
-  mounted() {
-    this.getUsers();
+
+  props: {
+      allUsers: {
+          require: true,
+          type: Array,
+      },
+      title: {
+          require: true,
+          type: String
+      }
   },
 
   computed: {
-    //   ...mapState({
-    //       users: (state) => state.users.users
-    //   })
-    ...mapGetters({
-        allUsers: 'sortedUsers',
-    }),
 
     users () {
         return this.allUsers.filter(user => {
@@ -117,7 +119,7 @@ export default {
     ...mapMutations({
         addUserChat: 'ADD_USER_CONVERSATION',
     }),
-    ...mapActions(["getUsers", "getMessagesConversation"]),
+    ...mapActions(["getMessagesConversation"]),
 
     openChatWithUser (user) {
         this.activeChat = user.id
