@@ -51,6 +51,7 @@
               viewBox="0 0 24 24"
               stroke="currentColor"
               class="h-6 w-6"
+              :class="{'fill-current text-red-600' : userConversation != null && userConversation.isMyFavorite}"
             >
               <path
                 stroke-linecap="round"

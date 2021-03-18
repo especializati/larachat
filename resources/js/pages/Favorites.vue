@@ -6,27 +6,25 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 import Users from '../components/Chat/Users'
 import Conversation from '../components/Chat/Conversation'
 
 export default {
     mounted() {
-        // this.getUsers();
+        if (this.allUsers.length === 0)
+            this.getMyFavorites();
     },
 
     computed: {
-    },
-
-    data() {
-        return {
-            allUsers: []
-        }
+        ...mapState({
+            allUsers: (state) => state.me.favorites
+        }),
     },
 
     methods: {
-        //...mapActions(["getUsers"]),
+        ...mapActions(["getMyFavorites"]),
     },
 
     components: {
