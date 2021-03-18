@@ -1,17 +1,20 @@
 <template>
-    <div>
-        <router-link :to="{name: 'home'}">Home</router-link>
-        <router-link :to="{name: 'favorites'}">Favoritos</router-link>
-        <router-link :to="{name: 'profile'}">Perfil</router-link>
-
-        <div class="content">
-            <router-view></router-view>
-        </div>
-    </div>
+  <div class="chat-wrapper">
+    <sidebar />
+    <main class="chat-main relative bg-gray-100">
+      <section class="chat-inbox w-full h-full is-active">
+        <router-view></router-view>
+      </section>
+    </main>
+  </div>
 </template>
 
 <script>
-export default {
+import Sidebar from "./_partials/Sidebar";
 
-}
+export default {
+  components: {
+    Sidebar,
+  },
+};
 </script>
