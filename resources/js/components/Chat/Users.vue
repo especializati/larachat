@@ -70,8 +70,9 @@
               >22/02/2024</time
             > -->
             <span
+              v-show="user.unreadMessages > 0"
               class="absolute bottom-0 right-0 text-xs font-medium bg-indigo-500 text-white text-circle"
-              >3</span
+              >{{ user.unreadMessages }}</span
             >
           </div>
         </li>

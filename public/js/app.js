@@ -2243,6 +2243,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -2720,10 +2721,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   actions: {
     getMessagesConversation: function getMessagesConversation(_ref) {
       var state = _ref.state,
-          commit = _ref.commit;
+          commit = _ref.commit,
+          dispatch = _ref.dispatch;
       commit('CLEAR_MESSAGES');
       return axios.get("/api/v1/messages/".concat(state.userConversation.id)).then(function (response) {
-        return commit('ADD_MESSAGES', response.data.data);
+        commit('ADD_MESSAGES', response.data.data);
+        dispatch('markConversationsAsRead');
       });
     },
     sendNewMessage: function sendNewMessage(_ref2, message) {
@@ -2738,6 +2741,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           receiver: _objectSpread({}, state.userConversation),
           me: true
         });
+      });
+    },
+    markConversationsAsRead: function markConversationsAsRead(_ref3) {
+      var commit = _ref3.commit,
+          state = _ref3.state;
+      return axios.patch('/api/v1/messages/mark_as_read', {
+        sender: state.userConversation.id
+      }).then(function (response) {
+        return commit('CLEAR_TOTAL_UNREAD_MESSAGES', state.userConversation.id);
       });
     }
   },
@@ -2926,6 +2938,12 @@ __webpack_require__.r(__webpack_exports__);
   REMOVE_USER_FAVORITE: function REMOVE_USER_FAVORITE(state, userM) {
     state.users.data = state.users.data.map(function (user, index) {
       if (user.email === userM.email) user.isMyFavorite = false;
+      return user;
+    });
+  },
+  CLEAR_TOTAL_UNREAD_MESSAGES: function CLEAR_TOTAL_UNREAD_MESSAGES(state, id) {
+    state.users.data.map(function (user, index) {
+      if (user.id === id) user.unreadMessages = 0;
       return user;
     });
   }
@@ -50647,10 +50665,18 @@ var render = function() {
                 _c(
                   "span",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: user.unreadMessages > 0,
+                        expression: "user.unreadMessages > 0"
+                      }
+                    ],
                     staticClass:
                       "absolute bottom-0 right-0 text-xs font-medium bg-indigo-500 text-white text-circle"
                   },
-                  [_vm._v("3")]
+                  [_vm._v(_vm._s(user.unreadMessages))]
                 )
               ])
             ]
