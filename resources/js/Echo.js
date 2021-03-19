@@ -5,7 +5,6 @@ const userId = window.Laravel.user
 
 window.Echo.channel(`larachat_database_private-chat.${userId}`)
 .listen('NewMessageCreated', (e) => {
-    console.log(e.message)
     let conversation = e.message
 
     if (store.state.chat.userConversation == null
@@ -17,6 +16,8 @@ window.Echo.channel(`larachat_database_private-chat.${userId}`)
             conversation.me = false
             store.state.chat.messages.push(conversation)
         }
+
+    store.commit('UPDATE_TOTAL_UNREAD_MESSAGES', conversation.sender.id)
 })
 
 window.Echo.join('larachat_database_chatroom')

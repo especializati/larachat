@@ -40,5 +40,14 @@ export default {
 
             return user
         })
+    },
+
+    UPDATE_TOTAL_UNREAD_MESSAGES (state, id) {
+        state.users.data.map((user, index) => {
+            if (user.id === id)
+                user.unreadMessages = parseInt(user.unreadMessages) + 1
+
+            return user
+        })
     }
 }
