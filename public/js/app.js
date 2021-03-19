@@ -2105,7 +2105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       sendingMessage: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage', 'setNewFavorite'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage', 'setNewFavorite', 'removeFavorite'])), {}, {
     scrollMessages: function scrollMessages() {
       var _this = this;
 
@@ -2129,8 +2129,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         return _this2.sendingMessage = false;
       });
     },
-    newFavorite: function newFavorite() {
-      this.setNewFavorite(this.userConversation);
+    toogleFavorite: function toogleFavorite() {
+      if (this.userConversation.isMyFavorite) return this.removeFavorite(this.userConversation);
+      return this.setNewFavorite(this.userConversation);
     }
   }),
   watch: {
@@ -2785,6 +2786,19 @@ __webpack_require__.r(__webpack_exports__);
         commit('SET_USER_FAVORITE', user);
         if (state.favorites.length > 0) dispatch('getMyFavorites');
       });
+    },
+    removeFavorite: function removeFavorite(_ref3, user) {
+      var commit = _ref3.commit,
+          dispatch = _ref3.dispatch,
+          state = _ref3.state;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().delete('/api/v1/favorites', {
+        data: {
+          user: user.id
+        }
+      }).then(function (response) {
+        commit('REMOVE_USER_FAVORITE', user);
+        if (state.favorites.length > 0) dispatch('getMyFavorites');
+      });
     }
   }
 });
@@ -2906,6 +2920,12 @@ __webpack_require__.r(__webpack_exports__);
   SET_USER_FAVORITE: function SET_USER_FAVORITE(state, userM) {
     state.users.data = state.users.data.map(function (user, index) {
       if (user.email === userM.email) user.isMyFavorite = true;
+      return user;
+    });
+  },
+  REMOVE_USER_FAVORITE: function REMOVE_USER_FAVORITE(state, userM) {
+    state.users.data = state.users.data.map(function (user, index) {
+      if (user.email === userM.email) user.isMyFavorite = false;
       return user;
     });
   }
@@ -50228,7 +50248,7 @@ var render = function() {
                     on: {
                       click: function($event) {
                         $event.preventDefault()
-                        return _vm.newFavorite($event)
+                        return _vm.toogleFavorite($event)
                       }
                     }
                   },

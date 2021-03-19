@@ -25,6 +25,18 @@ export default {
                             if (state.favorites.length > 0)
                                 dispatch('getMyFavorites')
                         })
+        },
+
+        removeFavorite ({commit, dispatch, state}, user) {
+            return axios.delete('/api/v1/favorites', {data: {
+                user: user.id
+            }})
+            .then(response => {
+                commit('REMOVE_USER_FAVORITE', user)
+
+                if (state.favorites.length > 0)
+                    dispatch('getMyFavorites')
+            })
         }
     }
 }

@@ -22,5 +22,14 @@ export default {
 
             return user
         })
+    },
+
+    REMOVE_USER_FAVORITE (state, userM) {
+        state.users.data = state.users.data.map((user, index) => {
+            if (user.email === userM.email)
+                user.isMyFavorite = false
+
+            return user
+        })
     }
 }
