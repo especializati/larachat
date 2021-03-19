@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Events\NewMessageCreated;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\MarkMessageAsRead;
 use App\Http\Requests\StoreMessage;
 use App\Http\Resources\MessageResource;
 use App\Models\Message;
@@ -34,5 +35,12 @@ class ChatApiController extends Controller
         $messages = $this->message->conversationsWithUser($id);
 
         return MessageResource::collection($messages);
+    }
+
+    public function markMessagesAsRead(MarkMessageAsRead $request)
+    {
+        $this->message->markMessagesAsRead($request->sender);
+
+        return response()->json(['message' => 'success']);
     }
 }

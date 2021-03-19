@@ -9,7 +9,7 @@ class Message extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['receiver_id', 'message'];
+    protected $fillable = ['receiver_id', 'message', 'read'];
 
     public function sender()
     {
@@ -38,5 +38,13 @@ class Message extends Model
         // from messages
         // where (sender_id = authUser && receiver_id = $id)
         // or (sender_id = $id && receiver_id = authUser)
+    }
+
+    public function markMessagesAsRead(int $senderId)
+    {
+        return $this->where('sender_id', $senderId)
+                        ->where('read', false)
+                        ->where('receiver_id', auth()->user()->id)
+                        ->update(['read' => true]);
     }
 }

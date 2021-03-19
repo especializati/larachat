@@ -21,6 +21,7 @@ class UserResource extends JsonResource
             'photo' => '',
             'online' => false,
             'isMyFavorite' => $this->favorite->count() > 0,
+            'unreadMessages' => $this->unreadMessages->count(),
         ];
     }
 }

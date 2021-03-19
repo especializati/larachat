@@ -13,6 +13,7 @@ Route::prefix('v1')
 
     Route::get('/users', [UserApiController::class, 'index']);
 
+    Route::patch('/messages/mark_as_read', [ChatApiController::class, 'markMessagesAsRead']);
     Route::post('/messages', [ChatApiController::class, 'store']);
     Route::get('/messages/{id}', [ChatApiController::class, 'messagesWithUser']);
 
