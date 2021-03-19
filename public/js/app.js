@@ -2084,6 +2084,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2104,7 +2105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       sendingMessage: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage', 'setNewFavorite'])), {}, {
     scrollMessages: function scrollMessages() {
       var _this = this;
 
@@ -2127,6 +2128,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["finally"](function () {
         return _this2.sendingMessage = false;
       });
+    },
+    newFavorite: function newFavorite() {
+      this.setNewFavorite(this.userConversation);
     }
   }),
   watch: {
@@ -2770,6 +2774,17 @@ __webpack_require__.r(__webpack_exports__);
       return axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/v1/favorites').then(function (response) {
         return commit('SET_MY_FAVORITES', response.data.data);
       });
+    },
+    setNewFavorite: function setNewFavorite(_ref2, user) {
+      var commit = _ref2.commit,
+          dispatch = _ref2.dispatch,
+          state = _ref2.state;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/favorites', {
+        user: user.id
+      }).then(function (response) {
+        commit('SET_USER_FAVORITE', user);
+        if (state.favorites.length > 0) dispatch('getMyFavorites');
+      });
     }
   }
 });
@@ -2886,6 +2901,12 @@ __webpack_require__.r(__webpack_exports__);
   REMOVE_ONLINE_USER: function REMOVE_ONLINE_USER(state, user) {
     state.onlineUsers = state.onlineUsers.filter(function (u) {
       return u.email != user.email;
+    });
+  },
+  SET_USER_FAVORITE: function SET_USER_FAVORITE(state, userM) {
+    state.users.data = state.users.data.map(function (user, index) {
+      if (user.email === userM.email) user.isMyFavorite = true;
+      return user;
     });
   }
 });
@@ -50203,7 +50224,13 @@ var render = function() {
                   {
                     staticClass:
                       "inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none",
-                    attrs: { type: "button" }
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.newFavorite($event)
+                      }
+                    }
                   },
                   [
                     _c(

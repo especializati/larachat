@@ -43,6 +43,7 @@
         <div class="flex items-center space-x-2">
           <button
             type="button"
+            @click.prevent="newFavorite"
             class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none"
           >
             <svg
@@ -176,7 +177,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['sendNewMessage']),
+        ...mapActions(['sendNewMessage', 'setNewFavorite']),
 
         scrollMessages () {
             setTimeout(() => {
@@ -199,6 +200,10 @@ export default {
                         this.message = ''
                     })
                     .finally(() => this.sendingMessage = false)
+        },
+
+        newFavorite() {
+            this.setNewFavorite(this.userConversation)
         }
     },
 
