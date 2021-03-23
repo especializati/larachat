@@ -1,14 +1,17 @@
 <template>
     <div class="md:grid md:grid-cols-1 md:gap-6 p-8">
         <div class="bg-white p-8 shadow sm:rounded-md sm:overflow-hidden">
-            <span class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
+            <span v-if="me.photo === ''" class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                 <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"></path>
                 </svg>
             </span>
+            <div v-else class="inline-block">
+                <img :src="me.photo" :alt="me.name" class="h-12 w-12 rounded-full">
+            </div>
 
             <div class="inline-block">
-                <input type="file" class="p-6">
+                <input type="file" class="p-6" @change="updatePhoto">
             </div>
         </div>
 
@@ -60,6 +63,27 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
+    computed: {
+        ...mapState({
+            me: (state) => state.me.me
+        })
+    },
+
+    methods: {
+        ...mapActions(['updatePhotoProfile']),
+
+        updatePhoto (e) {
+            let files = e.target.files || e.dataTransfer.files
+            if (files.length == 0) return
+
+            const formData = new FormData()
+            formData.append('image', files[0])
+
+            this.updatePhotoProfile(formData)
+        }
+    }
 }
 </script>

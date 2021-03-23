@@ -1,5 +1,11 @@
 import axios from "axios"
 
+const CONFIGS = {
+    headers: {
+        'content-type': 'multipart/form-data'
+    }
+}
+
 export default {
     state: {
         favorites: [],
@@ -55,6 +61,12 @@ export default {
         getMe ({commit}) {
             axios.get('/api/v1/me')
                     .then(response => commit('SET_ME', response.data.data))
+        },
+
+        updatePhotoProfile ({dispatch}, formData) {
+            formData.append('_method', 'PATCH')
+            return axios.post('/api/v1/profile/update-photo', formData, CONFIGS)
+                            .then(response => dispatch('getMe'))
         }
     }
 }
