@@ -15,3 +15,5 @@ const app = new Vue({
     store,
     router
 });
+
+store.dispatch('getMe')

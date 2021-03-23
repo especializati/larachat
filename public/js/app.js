@@ -2507,6 +2507,61 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
@@ -2579,6 +2634,7 @@ var app = new Vue({
   store: _vuex_store__WEBPACK_IMPORTED_MODULE_1__.default,
   router: _routes__WEBPACK_IMPORTED_MODULE_2__.default
 });
+_vuex_store__WEBPACK_IMPORTED_MODULE_1__.default.dispatch('getMe');
 
 /***/ }),
 
@@ -2775,11 +2831,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   state: {
-    favorites: []
+    favorites: [],
+    me: {
+      name: "",
+      email: "",
+      photo: "",
+      preference: {
+        me_notify: true,
+        background_chat: ""
+      }
+    }
   },
   mutations: {
     SET_MY_FAVORITES: function SET_MY_FAVORITES(state, users) {
       state.favorites = users;
+    },
+    SET_ME: function SET_ME(state, me) {
+      state.me = me;
     }
   },
   actions: {
@@ -2811,6 +2879,12 @@ __webpack_require__.r(__webpack_exports__);
       }).then(function (response) {
         commit('REMOVE_USER_FAVORITE', user);
         if (state.favorites.length > 0) dispatch('getMyFavorites');
+      });
+    },
+    getMe: function getMe(_ref4) {
+      var commit = _ref4.commit;
+      axios__WEBPACK_IMPORTED_MODULE_0___default().get('/api/v1/me').then(function (response) {
+        return commit('SET_ME', response.data.data);
       });
     }
   }
@@ -50952,9 +51026,202 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [_vm._v("\n    #profile\n")])
+  return _c("div", { staticClass: "md:grid md:grid-cols-1 md:gap-6 p-8" }, [
+    _c(
+      "div",
+      { staticClass: "bg-white p-8 shadow sm:rounded-md sm:overflow-hidden" },
+      [
+        _c(
+          "span",
+          {
+            staticClass:
+              "inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100"
+          },
+          [
+            _c(
+              "svg",
+              {
+                staticClass: "h-full w-full text-gray-300",
+                attrs: { fill: "currentColor", viewBox: "0 0 24 24" }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z"
+                  }
+                })
+              ]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _vm._m(0)
+      ]
+    ),
+    _vm._v(" "),
+    _vm._m(1),
+    _vm._v(" "),
+    _vm._m(2),
+    _vm._v(" "),
+    _vm._m(3)
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "inline-block" }, [
+      _c("input", { staticClass: "p-6", attrs: { type: "file" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
+      [
+        _c("div", { staticClass: "p-6" }, [
+          _c("div", { staticClass: "col-span-6 sm:col-span-4 py-2" }, [
+            _c(
+              "label",
+              {
+                staticClass: "block text-sm font-medium text-gray-700",
+                attrs: { for: "nome" }
+              },
+              [_vm._v("Nome")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass:
+                "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
+              attrs: {
+                type: "text",
+                name: "email_address",
+                id: "email_address",
+                autocomplete: "email"
+              }
+            })
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "col-span-6 sm:col-span-4 py-2" }, [
+            _c(
+              "label",
+              {
+                staticClass: "block text-sm font-medium text-gray-700",
+                attrs: { for: "email_address" }
+              },
+              [_vm._v("E-mail")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass:
+                "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
+              attrs: {
+                type: "text",
+                name: "email_address",
+                id: "email_address",
+                autocomplete: "email",
+                disabled: ""
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" }, [
+          _c(
+            "button",
+            {
+              staticClass:
+                "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("\n            Atualizar\n          ")]
+          )
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
+      [
+        _c("div", { staticClass: "p-6" }, [
+          _c("div", { staticClass: "col-span-6 sm:col-span-4 py-2" }, [
+            _c("label", { attrs: { for: "notifications" } }, [
+              _c("input", {
+                staticClass:
+                  "px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
+                attrs: {
+                  type: "checkbox",
+                  name: "email_address",
+                  id: "email_address",
+                  autocomplete: "email"
+                }
+              }),
+              _vm._v(
+                "\n                    Receber Notificações?\n                "
+              )
+            ])
+          ])
+        ])
+      ]
+    )
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "div",
+      { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
+      [
+        _c("div", { staticClass: "p-6" }, [
+          _c("div", { staticClass: "col-span-6 sm:col-span-4 py-2" }, [
+            _c(
+              "label",
+              {
+                staticClass: "block text-sm font-medium text-gray-700",
+                attrs: { for: "email_address" }
+              },
+              [_vm._v("Atualizar Background")]
+            ),
+            _vm._v(" "),
+            _c("input", {
+              staticClass:
+                "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
+              attrs: {
+                type: "file",
+                name: "email_address",
+                id: "email_address",
+                autocomplete: "email"
+              }
+            })
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" }, [
+          _c(
+            "button",
+            {
+              staticClass:
+                "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+              attrs: { type: "submit" }
+            },
+            [_vm._v("\n            Atualizar Preferências\n          ")]
+          )
+        ])
+      ]
+    )
+  }
+]
 render._withStripped = true
 
 
