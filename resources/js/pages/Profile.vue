@@ -50,13 +50,8 @@
             <div class="p-6">
                 <div class="col-span-6 sm:col-span-4 py-2">
                     <label for="email_address" class="block text-sm font-medium text-gray-700">Atualizar Background</label>
-                    <input type="file" name="email_address" id="email_address" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
+                    <input @change="updateBackgroundChat" type="file" name="image_chat" id="image_chat" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
                 </div>
-            </div>
-            <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                Atualizar Preferências
-              </button>
             </div>
         </div>
 
@@ -78,7 +73,8 @@ export default {
         ...mapActions([
             'updatePhotoProfile',
             'update',
-            'toogleNotify'
+            'toogleNotify',
+            'updateImageChat'
         ]),
 
         updatePhoto (e) {
@@ -93,7 +89,17 @@ export default {
 
         updateProfile () {
             this.update({name: this.me.name})
-        }
+        },
+
+        updateBackgroundChat (e) {
+            let files = e.target.files || e.dataTransfer.files
+            if (files.length == 0) return
+
+            const formData = new FormData()
+            formData.append('image', files[0])
+
+            this.updateImageChat(formData)
+        },
     }
 }
 </script>

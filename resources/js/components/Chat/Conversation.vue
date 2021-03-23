@@ -64,7 +64,12 @@
           </button>
         </div>
       </div>
-      <div class="chat-window__messages-wrapper">
+      <div
+        class="chat-window__messages-wrapper"
+        :style="[
+            me.preference.background_chat ?
+            {'background-image' : `url('${me.preference.background_chat}')`}
+            : '']">
         <!-- chat msgs  -->
         <div class="chat-window__messages-inner" ref="messages">
           <div class="chat-messages">
@@ -162,6 +167,7 @@ export default {
         ...mapState({
             userConversation: (state) => state.chat.userConversation,
             messages: (state) => state.chat.messages,
+            me: (state) => state.me.me,
         }),
 
         disabledButton () {

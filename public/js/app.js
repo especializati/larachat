@@ -2085,6 +2085,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2093,6 +2098,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     messages: function messages(state) {
       return state.chat.messages;
+    },
+    me: function me(state) {
+      return state.me.me;
     }
   })), {}, {
     disabledButton: function disabledButton() {
@@ -2569,11 +2577,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2581,7 +2584,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.me.me;
     }
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify', 'updateImageChat'])), {}, {
     updatePhoto: function updatePhoto(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (files.length == 0) return;
@@ -2593,6 +2596,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.update({
         name: this.me.name
       });
+    },
+    updateBackgroundChat: function updateBackgroundChat(e) {
+      var files = e.target.files || e.dataTransfer.files;
+      if (files.length == 0) return;
+      var formData = new FormData();
+      formData.append('image', files[0]);
+      this.updateImageChat(formData);
     }
   })
 });
@@ -2950,6 +2960,13 @@ var CONFIGS = {
           state = _ref7.state;
       return axios__WEBPACK_IMPORTED_MODULE_0___default().patch('/api/v1/profile/update-preference', {
         me_notify: state.me.preference.me_notify
+      });
+    },
+    updateImageChat: function updateImageChat(_ref8, formData) {
+      var dispatch = _ref8.dispatch;
+      formData.append('_method', 'PATCH');
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/profile/update-image-chat', formData, CONFIGS).then(function (response) {
+        return dispatch('getMe');
       });
     }
   }
@@ -50451,160 +50468,84 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "chat-window__messages-wrapper" }, [
-            _c(
-              "div",
-              { ref: "messages", staticClass: "chat-window__messages-inner" },
-              [
-                _c(
-                  "div",
-                  { staticClass: "chat-messages" },
-                  _vm._l(_vm.messages, function(message, index) {
-                    return _c(
-                      "div",
-                      {
-                        key: index,
-                        class: [message.me ? "my-message" : "his-message"]
-                      },
-                      [
-                        _c("div", { staticClass: "inner" }, [
-                          !message.me
-                            ? _c("div", { staticClass: "profile" }, [
-                                _c("img", {
-                                  staticClass: "w-10 h-10 rounded-full",
-                                  attrs: {
-                                    src: [
-                                      message.sender.photo != ""
-                                        ? message.sender.photo
-                                        : "/images/no-photo.png"
-                                    ],
-                                    alt: message.sender.name
-                                  }
-                                })
-                              ])
-                            : _vm._e(),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "ballon-text" }, [
-                            _c("div", [_vm._v(_vm._s(message.message))])
-                          ])
-                        ])
-                      ]
-                    )
-                  }),
-                  0
-                )
+          _c(
+            "div",
+            {
+              staticClass: "chat-window__messages-wrapper",
+              style: [
+                _vm.me.preference.background_chat
+                  ? {
+                      "background-image":
+                        "url('" + _vm.me.preference.background_chat + "')"
+                    }
+                  : ""
               ]
-            ),
-            _vm._v(" "),
-            _c("div", { staticClass: "chat-input w-full px-4 mb-4" }, [
+            },
+            [
               _c(
                 "div",
-                {
-                  staticClass:
-                    "flex flex-row items-center h-16 rounded-xl px-4 bg-white"
-                },
+                { ref: "messages", staticClass: "chat-window__messages-inner" },
                 [
-                  _c("div", [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "flex items-center justify-center text-gray-400 hover:text-gray-600"
-                      },
-                      [
-                        _c(
-                          "svg",
-                          {
-                            staticClass: "w-5 h-5",
-                            attrs: {
-                              fill: "none",
-                              stroke: "currentColor",
-                              viewBox: "0 0 24 24",
-                              xmlns: "http://www.w3.org/2000/svg"
-                            }
-                          },
-                          [
-                            _c("path", {
-                              attrs: {
-                                "stroke-linecap": "round",
-                                "stroke-linejoin": "round",
-                                "stroke-width": "2",
-                                d:
-                                  "M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
-                              }
-                            })
-                          ]
-                        )
-                      ]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "flex-grow ml-4" }, [
-                    _c("div", { staticClass: "relative w-full" }, [
-                      _c("input", {
-                        directives: [
-                          {
-                            name: "model",
-                            rawName: "v-model",
-                            value: _vm.message,
-                            expression: "message"
-                          }
-                        ],
-                        staticClass:
-                          "flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10",
-                        attrs: { type: "text" },
-                        domProps: { value: _vm.message },
-                        on: {
-                          keyup: function($event) {
-                            if (
-                              !$event.type.indexOf("key") &&
-                              _vm._k(
-                                $event.keyCode,
-                                "enter",
-                                13,
-                                $event.key,
-                                "Enter"
-                              )
-                            ) {
-                              return null
-                            }
-                            return _vm.sendMessage($event)
-                          },
-                          input: function($event) {
-                            if ($event.target.composing) {
-                              return
-                            }
-                            _vm.message = $event.target.value
-                          }
-                        }
-                      })
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "ml-4" }, [
-                    _c(
-                      "button",
-                      {
-                        staticClass:
-                          "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0",
-                        attrs: { disabled: _vm.disabledButton, type: "submit" },
-                        on: {
-                          click: function($event) {
-                            $event.preventDefault()
-                            return _vm.sendMessage($event)
-                          }
-                        }
-                      },
-                      [
-                        _vm.sendingMessage
-                          ? _c("span", [_vm._v("Enviando...")])
-                          : _c("span", [_vm._v("Enviar")]),
-                        _vm._v(" "),
-                        _c("span", { staticClass: "ml-2" }, [
+                  _c(
+                    "div",
+                    { staticClass: "chat-messages" },
+                    _vm._l(_vm.messages, function(message, index) {
+                      return _c(
+                        "div",
+                        {
+                          key: index,
+                          class: [message.me ? "my-message" : "his-message"]
+                        },
+                        [
+                          _c("div", { staticClass: "inner" }, [
+                            !message.me
+                              ? _c("div", { staticClass: "profile" }, [
+                                  _c("img", {
+                                    staticClass: "w-10 h-10 rounded-full",
+                                    attrs: {
+                                      src: [
+                                        message.sender.photo != ""
+                                          ? message.sender.photo
+                                          : "/images/no-photo.png"
+                                      ],
+                                      alt: message.sender.name
+                                    }
+                                  })
+                                ])
+                              : _vm._e(),
+                            _vm._v(" "),
+                            _c("div", { staticClass: "ballon-text" }, [
+                              _c("div", [_vm._v(_vm._s(message.message))])
+                            ])
+                          ])
+                        ]
+                      )
+                    }),
+                    0
+                  )
+                ]
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "chat-input w-full px-4 mb-4" }, [
+                _c(
+                  "div",
+                  {
+                    staticClass:
+                      "flex flex-row items-center h-16 rounded-xl px-4 bg-white"
+                  },
+                  [
+                    _c("div", [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center justify-center text-gray-400 hover:text-gray-600"
+                        },
+                        [
                           _c(
                             "svg",
                             {
-                              staticClass: "w-4 h-4 transform rotate-45 -mt-px",
+                              staticClass: "w-5 h-5",
                               attrs: {
                                 fill: "none",
                                 stroke: "currentColor",
@@ -50618,19 +50559,113 @@ var render = function() {
                                   "stroke-linecap": "round",
                                   "stroke-linejoin": "round",
                                   "stroke-width": "2",
-                                  d: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                  d:
+                                    "M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"
                                 }
                               })
                             ]
                           )
-                        ])
-                      ]
-                    )
-                  ])
-                ]
-              )
-            ])
-          ])
+                        ]
+                      )
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "flex-grow ml-4" }, [
+                      _c("div", { staticClass: "relative w-full" }, [
+                        _c("input", {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.message,
+                              expression: "message"
+                            }
+                          ],
+                          staticClass:
+                            "flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10",
+                          attrs: { type: "text" },
+                          domProps: { value: _vm.message },
+                          on: {
+                            keyup: function($event) {
+                              if (
+                                !$event.type.indexOf("key") &&
+                                _vm._k(
+                                  $event.keyCode,
+                                  "enter",
+                                  13,
+                                  $event.key,
+                                  "Enter"
+                                )
+                              ) {
+                                return null
+                              }
+                              return _vm.sendMessage($event)
+                            },
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.message = $event.target.value
+                            }
+                          }
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "ml-4" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0",
+                          attrs: {
+                            disabled: _vm.disabledButton,
+                            type: "submit"
+                          },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.sendMessage($event)
+                            }
+                          }
+                        },
+                        [
+                          _vm.sendingMessage
+                            ? _c("span", [_vm._v("Enviando...")])
+                            : _c("span", [_vm._v("Enviar")]),
+                          _vm._v(" "),
+                          _c("span", { staticClass: "ml-2" }, [
+                            _c(
+                              "svg",
+                              {
+                                staticClass:
+                                  "w-4 h-4 transform rotate-45 -mt-px",
+                                attrs: {
+                                  fill: "none",
+                                  stroke: "currentColor",
+                                  viewBox: "0 0 24 24",
+                                  xmlns: "http://www.w3.org/2000/svg"
+                                }
+                              },
+                              [
+                                _c("path", {
+                                  attrs: {
+                                    "stroke-linecap": "round",
+                                    "stroke-linejoin": "round",
+                                    "stroke-width": "2",
+                                    d: "M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                                  }
+                                })
+                              ]
+                            )
+                          ])
+                        ]
+                      )
+                    ])
+                  ]
+                )
+              ])
+            ]
+          )
         ])
       ])
     : _vm._e()
@@ -51313,15 +51348,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(0)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
+    _c(
       "div",
       { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
       [
@@ -51341,29 +51368,19 @@ var staticRenderFns = [
                 "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
               attrs: {
                 type: "file",
-                name: "email_address",
-                id: "email_address",
+                name: "image_chat",
+                id: "image_chat",
                 autocomplete: "email"
-              }
+              },
+              on: { change: _vm.updateBackgroundChat }
             })
           ])
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" }, [
-          _c(
-            "button",
-            {
-              staticClass:
-                "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
-              attrs: { type: "submit" }
-            },
-            [_vm._v("\n            Atualizar Preferências\n          ")]
-          )
         ])
       ]
     )
-  }
-]
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 

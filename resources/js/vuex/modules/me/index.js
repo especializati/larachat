@@ -78,6 +78,12 @@ export default {
             return axios.patch('/api/v1/profile/update-preference', {
                 me_notify: state.me.preference.me_notify
             })
-        }
+        },
+
+        updateImageChat ({dispatch}, formData) {
+            formData.append('_method', 'PATCH')
+            return axios.post('/api/v1/profile/update-image-chat', formData, CONFIGS)
+                            .then(response => dispatch('getMe'))
+        },
     }
 }
