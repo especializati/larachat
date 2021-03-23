@@ -67,6 +67,11 @@ export default {
             formData.append('_method', 'PATCH')
             return axios.post('/api/v1/profile/update-photo', formData, CONFIGS)
                             .then(response => dispatch('getMe'))
+        },
+
+        update ({ dispatch }, formData) {
+            return axios.patch('/api/v1/profile/update', {...formData})
+                        .then(response => dispatch('getMe'))
         }
     }
 }

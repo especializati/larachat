@@ -2572,6 +2572,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2579,13 +2581,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.me.me;
     }
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update'])), {}, {
     updatePhoto: function updatePhoto(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (files.length == 0) return;
       var formData = new FormData();
       formData.append('image', files[0]);
       this.updatePhotoProfile(formData);
+    },
+    updateProfile: function updateProfile() {
+      this.update({
+        name: this.me.name
+      });
     }
   })
 });
@@ -2854,6 +2861,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 
 var CONFIGS = {
   headers: {
@@ -2922,6 +2935,12 @@ var CONFIGS = {
       var dispatch = _ref5.dispatch;
       formData.append('_method', 'PATCH');
       return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/profile/update-photo', formData, CONFIGS).then(function (response) {
+        return dispatch('getMe');
+      });
+    },
+    update: function update(_ref6, formData) {
+      var dispatch = _ref6.dispatch;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().patch('/api/v1/profile/update', _objectSpread({}, formData)).then(function (response) {
         return dispatch('getMe');
       });
     }
@@ -51111,19 +51130,7 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _vm._m(0),
-    _vm._v(" "),
-    _vm._m(1),
-    _vm._v(" "),
-    _vm._m(2)
-  ])
-}
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
+    _c(
       "div",
       { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
       [
@@ -51139,13 +51146,30 @@ var staticRenderFns = [
             ),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.me.name,
+                  expression: "me.name"
+                }
+              ],
               staticClass:
                 "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
               attrs: {
                 type: "text",
-                name: "email_address",
-                id: "email_address",
+                name: "name",
+                id: "name",
                 autocomplete: "email"
+              },
+              domProps: { value: _vm.me.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.me, "name", $event.target.value)
+                }
               }
             })
           ]),
@@ -51161,14 +51185,31 @@ var staticRenderFns = [
             ),
             _vm._v(" "),
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.me.email,
+                  expression: "me.email"
+                }
+              ],
               staticClass:
                 "w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500",
               attrs: {
                 type: "text",
-                name: "email_address",
-                id: "email_address",
+                name: "email",
+                id: "email",
                 autocomplete: "email",
                 disabled: ""
+              },
+              domProps: { value: _vm.me.email },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.$set(_vm.me, "email", $event.target.value)
+                }
               }
             })
           ])
@@ -51180,14 +51221,26 @@ var staticRenderFns = [
             {
               staticClass:
                 "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
-              attrs: { type: "submit" }
+              attrs: { type: "submit" },
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.updateProfile($event)
+                }
+              }
             },
             [_vm._v("\n            Atualizar\n          ")]
           )
         ])
       ]
-    )
-  },
+    ),
+    _vm._v(" "),
+    _vm._m(0),
+    _vm._v(" "),
+    _vm._m(1)
+  ])
+}
+var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement

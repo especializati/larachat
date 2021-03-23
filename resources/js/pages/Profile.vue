@@ -19,15 +19,17 @@
             <div class="p-6">
                 <div class="col-span-6 sm:col-span-4 py-2">
                     <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
-                    <input type="text" name="email_address" id="email_address" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
+                    <input v-model="me.name" type="text" name="name" id="name" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
                 </div>
                 <div class="col-span-6 sm:col-span-4 py-2">
                     <label for="email_address" class="block text-sm font-medium text-gray-700">E-mail</label>
-                    <input type="text" name="email_address" id="email_address" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" disabled>
+                    <input  v-model="me.email" type="text" name="email" id="email" autocomplete="email" class="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500" disabled>
                 </div>
             </div>
             <div class="px-4 py-3 bg-gray-50 text-right sm:px-6">
-              <button type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              <button
+                @click.prevent="updateProfile"
+                type="submit" class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 Atualizar
               </button>
             </div>
@@ -73,7 +75,10 @@ export default {
     },
 
     methods: {
-        ...mapActions(['updatePhotoProfile']),
+        ...mapActions([
+            'updatePhotoProfile',
+            'update'
+        ]),
 
         updatePhoto (e) {
             let files = e.target.files || e.dataTransfer.files
@@ -83,6 +88,10 @@ export default {
             formData.append('image', files[0])
 
             this.updatePhotoProfile(formData)
+        },
+
+        updateProfile () {
+            this.update({name: this.me.name})
         }
     }
 }
