@@ -85,5 +85,10 @@ export default {
             return axios.post('/api/v1/profile/update-image-chat', formData, CONFIGS)
                             .then(response => dispatch('getMe'))
         },
+
+        removeImageChat ({dispatch}) {
+            return axios.patch('/api/v1/profile/remove-image-chat')
+                            .then(response => dispatch('getMe'))
+        },
     }
 }

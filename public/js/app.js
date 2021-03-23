@@ -2577,6 +2577,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2584,7 +2591,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.me.me;
     }
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify', 'updateImageChat'])), {}, {
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify', 'updateImageChat', 'removeImageChat'])), {}, {
     updatePhoto: function updatePhoto(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (files.length == 0) return;
@@ -2966,6 +2973,12 @@ var CONFIGS = {
       var dispatch = _ref8.dispatch;
       formData.append('_method', 'PATCH');
       return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/profile/update-image-chat', formData, CONFIGS).then(function (response) {
+        return dispatch('getMe');
+      });
+    },
+    removeImageChat: function removeImageChat(_ref9) {
+      var dispatch = _ref9.dispatch;
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().patch('/api/v1/profile/remove-image-chat').then(function (response) {
         return dispatch('getMe');
       });
     }
@@ -51375,7 +51388,31 @@ var render = function() {
               on: { change: _vm.updateBackgroundChat }
             })
           ])
-        ])
+        ]),
+        _vm._v(" "),
+        _vm.me.preference.background_chat
+          ? _c(
+              "div",
+              { staticClass: "px-4 py-3 bg-gray-50 text-right sm:px-6" },
+              [
+                _c(
+                  "button",
+                  {
+                    staticClass:
+                      "inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500",
+                    attrs: { type: "submit" },
+                    on: {
+                      click: function($event) {
+                        $event.preventDefault()
+                        return _vm.removeImageChat($event)
+                      }
+                    }
+                  },
+                  [_vm._v("\n            Remover Imagem do Chat\n          ")]
+                )
+              ]
+            )
+          : _vm._e()
       ]
     )
   ])
