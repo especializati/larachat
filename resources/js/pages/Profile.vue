@@ -39,7 +39,7 @@
             <div class="p-6">
                 <div class="col-span-6 sm:col-span-4 py-2">
                     <label for="notifications">
-                        <input type="checkbox" name="email_address" id="email_address" autocomplete="email" class="px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
+                        <input @change="toogleNotify" v-model="me.preference.me_notify" type="checkbox" name="me_notify" id="me_notify" autocomplete="email" class="px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-indigo-100 focus:border-indigo-300 dark:bg-gray-700 dark:text-white dark:placeholder-gray-500 dark:border-gray-600 dark:focus:ring-gray-900 dark:focus:border-gray-500">
                         Receber Notificações?
                     </label>
                 </div>
@@ -77,7 +77,8 @@ export default {
     methods: {
         ...mapActions([
             'updatePhotoProfile',
-            'update'
+            'update',
+            'toogleNotify'
         ]),
 
         updatePhoto (e) {

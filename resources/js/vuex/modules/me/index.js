@@ -72,6 +72,12 @@ export default {
         update ({ dispatch }, formData) {
             return axios.patch('/api/v1/profile/update', {...formData})
                         .then(response => dispatch('getMe'))
+        },
+
+        toogleNotify ({ dispatch, state }) {
+            return axios.patch('/api/v1/profile/update-preference', {
+                me_notify: state.me.preference.me_notify
+            })
         }
     }
 }
