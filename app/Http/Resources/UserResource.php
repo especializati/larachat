@@ -23,7 +23,7 @@ class UserResource extends JsonResource
             'isMyFavorite' => $this->favorite->count() > 0,
             'unreadMessages' => $this->unreadMessages->count(),
             'preference' => [
-                'me_notify' => isset($this->preference) ? $this->preference->me_notify : '',
+                'me_notify' => isset($this->preference) ? $this->preference->me_notify : true,
                 'background_chat' => isset($this->preference) && $this->preference->image_background_chat ? url("storage/{$this->preference->image_background_chat}") : '',
             ]
         ];
