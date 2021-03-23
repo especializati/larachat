@@ -18,10 +18,14 @@ class UserResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'photo' => '',
+            'photo' => $this->image ? url("storage/{$this->image}") : '',
             'online' => false,
             'isMyFavorite' => $this->favorite->count() > 0,
             'unreadMessages' => $this->unreadMessages->count(),
+            'preference' => [
+                'me_notify' => isset($this->preference) ? $this->preference->me_notify : '',
+                'background_chat' => isset($this->preference) && $this->preference->image_background_chat ? url("storage/{$this->preference->image_background_chat}") : '',
+            ]
         ];
     }
 }
