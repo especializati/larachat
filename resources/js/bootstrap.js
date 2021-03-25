@@ -46,7 +46,7 @@ window.io = require('socket.io-client');
 
 window.Echo = new Echo({
     broadcaster: 'socket.io',
-    host: process.env.MIX_PUSHER_APP_KEY + ':6001'
+    host: process.env.HOSTNAME + ':6001'
 });
 
 require('./Echo');
