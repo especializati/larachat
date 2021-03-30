@@ -1,5 +1,5 @@
 <template>
-    <div class="md:grid md:grid-cols-1 md:gap-6 p-8">
+    <div class="md:grid md:grid-cols-1 md:gap-6 p-8 overflow-y-auto" style="max-height: 100vh;">
         <div class="bg-white p-8 shadow sm:rounded-md sm:overflow-hidden">
             <span v-if="me.photo === ''" class="inline-block h-12 w-12 rounded-full overflow-hidden bg-gray-100">
                 <svg class="h-full w-full text-gray-300" fill="currentColor" viewBox="0 0 24 24">

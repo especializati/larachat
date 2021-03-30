@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-sidebar">
+  <div class="chat-sidebar overflow-y-auto">
     <div class="px-8 lg:py-4 lg:px-6">
       <h3 class="text-xl font-semibold tracking-wide mt-5 hidden lg:block">
         {{ title }}
@@ -132,3 +132,16 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.chat-sidebar::-webkit-scrollbar-track {
+    background-color: #F4F4F4;
+}
+.chat-sidebar::-webkit-scrollbar {
+    width: 6px;
+    background: #F4F4F4;
+}
+.chat-sidebar::-webkit-scrollbar-thumb {
+    background: #dad7d7;
+}
+</style>
