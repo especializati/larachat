@@ -62,6 +62,17 @@
             </div>
         </div>
 
+        <div class="bg-white shadow sm:rounded-md sm:overflow-hidden">
+            <div class="p-6">
+                <div class="col-span-6 sm:col-span-4 py-2">
+                    <button :disabled="isLogouting" @click="logoutNow" class="w-full h-12 px-6 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800">
+                        <span v-if="isLogouting">Saindo</span>
+                        <span v-else>Sair</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 </template>
@@ -76,13 +87,20 @@ export default {
         })
     },
 
+    data() {
+        return {
+            isLogouting: false,
+        }
+    },
+
     methods: {
         ...mapActions([
             'updatePhotoProfile',
             'update',
             'toogleNotify',
             'updateImageChat',
-            'removeImageChat'
+            'removeImageChat',
+            'logout'
         ]),
 
         updatePhoto (e) {
@@ -108,6 +126,14 @@ export default {
 
             this.updateImageChat(formData)
         },
+
+        logoutNow () {
+            this.isLogouting = true
+
+            this.logout()
+                    .then(response => window.location.reload())
+                    .finally(() => this.isLogouting = false)
+        }
     }
 }
 </script>

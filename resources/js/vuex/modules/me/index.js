@@ -90,5 +90,9 @@ export default {
             return axios.patch('/api/v1/profile/remove-image-chat')
                             .then(response => dispatch('getMe'))
         },
+
+        logout () {
+            return axios.post('/api/v1/logout')
+        }
     }
 }

@@ -2602,6 +2602,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2609,7 +2620,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return state.me.me;
     }
   })),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify', 'updateImageChat', 'removeImageChat'])), {}, {
+  data: function data() {
+    return {
+      isLogouting: false
+    };
+  },
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['updatePhotoProfile', 'update', 'toogleNotify', 'updateImageChat', 'removeImageChat', 'logout'])), {}, {
     updatePhoto: function updatePhoto(e) {
       var files = e.target.files || e.dataTransfer.files;
       if (files.length == 0) return;
@@ -2628,6 +2644,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var formData = new FormData();
       formData.append('image', files[0]);
       this.updateImageChat(formData);
+    },
+    logoutNow: function logoutNow() {
+      var _this = this;
+
+      this.isLogouting = true;
+      this.logout().then(function (response) {
+        return window.location.reload();
+      })["finally"](function () {
+        return _this.isLogouting = false;
+      });
     }
   })
 });
@@ -2999,6 +3025,9 @@ var CONFIGS = {
       return axios__WEBPACK_IMPORTED_MODULE_0___default().patch('/api/v1/profile/remove-image-chat').then(function (response) {
         return dispatch('getMe');
       });
+    },
+    logout: function logout() {
+      return axios__WEBPACK_IMPORTED_MODULE_0___default().post('/api/v1/logout');
     }
   }
 });
@@ -51941,6 +51970,31 @@ var render = function() {
                 ]
               )
             : _vm._e()
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "bg-white shadow sm:rounded-md sm:overflow-hidden" },
+        [
+          _c("div", { staticClass: "p-6" }, [
+            _c("div", { staticClass: "col-span-6 sm:col-span-4 py-2" }, [
+              _c(
+                "button",
+                {
+                  staticClass:
+                    "w-full h-12 px-6 text-red-100 transition-colors duration-150 bg-red-700 rounded-lg focus:shadow-outline hover:bg-red-800",
+                  attrs: { disabled: _vm.isLogouting },
+                  on: { click: _vm.logoutNow }
+                },
+                [
+                  _vm.isLogouting
+                    ? _c("span", [_vm._v("Saindo")])
+                    : _c("span", [_vm._v("Sair")])
+                ]
+              )
+            ])
+          ])
         ]
       )
     ]
