@@ -2090,6 +2090,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)({
@@ -2113,7 +2114,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       sendingMessage: false
     };
   },
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage', 'setNewFavorite', 'removeFavorite'])), {}, {
+  methods: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapActions)(['sendNewMessage', 'setNewFavorite', 'removeFavorite'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapMutations)({
+    removeUserChat: 'REMOVE_USER_CONVERSATION'
+  })), {}, {
     scrollMessages: function scrollMessages() {
       var _this = this;
 
@@ -2437,11 +2440,18 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   mounted: function mounted() {
     if (this.allUsers.length === 0) this.getMyFavorites();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
     allUsers: function allUsers(state) {
       return state.me.favorites;
+    },
+    userConversation: function userConversation(state) {
+      return state.chat.userConversation;
     }
-  })),
+  })), {}, {
+    hasUserChat: function hasUserChat() {
+      return this.userConversation != null;
+    }
+  }),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["getMyFavorites"])),
   components: {
     Users: _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -2486,9 +2496,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     // if (this.allUsers.length === 0)
     this.getUsers();
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)({
     allUsers: 'sortedUsers'
-  })),
+  })), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)({
+    userConversation: function userConversation(state) {
+      return state.chat.userConversation;
+    }
+  })), {}, {
+    hasUserChat: function hasUserChat() {
+      return this.userConversation != null;
+    }
+  }),
   methods: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapActions)(["getUsers"])),
   components: {
     Users: _components_Chat_Users__WEBPACK_IMPORTED_MODULE_0__.default,
@@ -50868,7 +50886,8 @@ var render = function() {
                   "div",
                   {
                     staticClass:
-                      "cursor-pointer lg:pointer-events-none rounded-full flex items-center hover:bg-gray-100 pl-2"
+                      "cursor-pointer lg:pointer-events-none rounded-full flex items-center hover:bg-gray-100 pl-2",
+                    on: { click: _vm.removeUserChat }
                   },
                   [
                     _c("span", { staticClass: "lg:hidden text-gray-500" }, [
@@ -51566,7 +51585,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "chat-container relative" },
+    {
+      staticClass: "chat-container relative",
+      class: { "has-oppened": _vm.hasUserChat }
+    },
     [
       _c("users", { attrs: { "all-users": _vm.allUsers, title: "Favoritos" } }),
       _vm._v(" "),
@@ -51600,7 +51622,10 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "chat-container relative" },
+    {
+      staticClass: "chat-container relative",
+      class: { "has-oppened": _vm.hasUserChat }
+    },
     [
       _c("users", { attrs: { "all-users": _vm.allUsers, title: "Usuários" } }),
       _vm._v(" "),

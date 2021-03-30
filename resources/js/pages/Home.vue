@@ -1,12 +1,12 @@
 <template>
-    <div class="chat-container relative">
+    <div class="chat-container relative" :class="{'has-oppened' : hasUserChat}">
         <users :all-users="allUsers" :title="'Usuários'"></users>
         <conversation></conversation>
     </div>
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 
 import Users from '../components/Chat/Users'
 import Conversation from '../components/Chat/Conversation'
@@ -21,6 +21,14 @@ export default {
         ...mapGetters({
             allUsers: 'sortedUsers',
         }),
+
+        ...mapState({
+            userConversation: (state) => state.chat.userConversation,
+        }),
+
+        hasUserChat () {
+            return this.userConversation != null
+        }
     },
 
     methods: {

@@ -8,6 +8,7 @@
         <div class="flex items-center space-x-4">
           <div
             class="cursor-pointer lg:pointer-events-none rounded-full flex items-center hover:bg-gray-100 pl-2"
+            @click="removeUserChat"
           >
             <span class="lg:hidden text-gray-500">
               <svg
@@ -188,6 +189,10 @@ export default {
             'setNewFavorite',
             'removeFavorite',
         ]),
+
+        ...mapMutations({
+            removeUserChat: 'REMOVE_USER_CONVERSATION'
+        }),
 
         scrollMessages () {
             setTimeout(() => {

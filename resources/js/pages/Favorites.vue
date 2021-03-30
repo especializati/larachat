@@ -1,5 +1,5 @@
 <template>
-    <div class="chat-container relative">
+    <div class="chat-container relative" :class="{'has-oppened' : hasUserChat}">
         <users :all-users="allUsers" :title="'Favoritos'"></users>
         <conversation></conversation>
     </div>
@@ -19,8 +19,13 @@ export default {
 
     computed: {
         ...mapState({
-            allUsers: (state) => state.me.favorites
+            allUsers: (state) => state.me.favorites,
+            userConversation: (state) => state.chat.userConversation,
         }),
+
+        hasUserChat () {
+            return this.userConversation != null
+        }
     },
 
     methods: {
