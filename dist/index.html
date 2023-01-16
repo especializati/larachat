@@ -1,0 +1,316 @@
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>LaraChat</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="96x96" href="images/favicon/favicon-96x96.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+<link rel="icon" href="favicon.ico"><link href="css/app.css" rel="stylesheet"></head>
+<body>
+  <div id="app">
+    <div class="chat-wrapper" x-data="{selected: 'inbox'}">
+      <aside class="chat-aside">
+        <div class="px-2 lg:py-2"><img class="w-24 lg:w-full mx-auto" src="images/content/logo-larachat.png"></div>
+        <nav class="nav-tab">
+          <a href="#inbox" :class="{ 'is-active': selected === 'inbox' }" @click.prevent="selected = 'inbox'">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z">
+              </path>
+            </svg>
+          </a>
+          <a href="#favorites" :class="{ 'is-active': selected === 'favorites' }" @click.prevent="selected = 'favorites'">
+            <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+              </path>
+            </svg>
+          </a>
+          <a href="#contacts" :class="{ 'is-active': selected === 'contacts' }" @click.prevent="selected = 'contacts'">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </a>
+        </nav>
+        <div class="text-center hidden lg:block">
+        </div>
+      </aside>
+      <main class="chat-main relative bg-gray-100">
+        <section class="chat-inbox w-full h-full" x-show.transition.in.opacity.duration.750ms="selected === 'inbox'"
+          :class="{ 'is-active': selected === 'inbox' }" id="inbox">
+          <div class="chat-container relative" x-data="lists()" :class="{'has-oppened' : toggleChat && isMobile()}">
+            <div class="chat-sidebar" x-show.transition.in.opacity.duration.300ms="toggleChat === false">
+              <div class="px-8 lg:py-4 lg:px-6">
+                <h3 class="text-xl font-semibold tracking-wide mt-5 hidden lg:block">Conversas</h3>
+                <div class="relative my-5 text-gray-600">
+                  <input type="search" name="serch" placeholder="Search"
+                    class="w-full bg-gray-100 h-10 px-5 pr-10 rounded-full text-sm focus:outline-none focus:shadow-lg focus:bg-white hover:shadow-md">
+                  <button type="submit" class="absolute right-0 top-0 mt-3 mr-4">
+                    <svg class="h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg"
+                      xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px"
+                      viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve"
+                      width="512px" height="512px">
+                      <path
+                        d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z" />
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <!-- users -->
+              <ul class="flex flex-col chat-list">
+                <template x-for="(list, index) in lists" :key="index">
+                  <li class="bg-white hover:bg-gray-100 border-b p-4 cursor-pointer" @click.prevent="setActive(index)"
+                    :class="{ 'is-active': activeChat === index }">
+                    <div class="flex items-center relative">
+                      <div class="relative">
+                        <img
+                          src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="" class="w-12 h-12 rounded-full">
+                        <span
+                          class="text-green-500 absolute -bottom-0.5 -right-0.5 rounded-full bg-white border-white border-4">
+                          <svg width="10" height="10">
+                            <circle cx="5" cy="5" r="5" fill="currentColor"></circle>
+                          </svg>
+                        </span>
+                      </div>
+                      <div class="flex flex-col leading-tight mx-4">
+                        <div class="font-medium mb-1 flex items-center">
+                          <span class="text-gray-700 mr-3" x-text="list.name"></span>
+                        </div>
+                        <span class="text-sm text-truncate text-muted-alt" x-text="list.lastMsg">Novas Mensagens
+                        </span>
+                      </div>
+                      <time class="absolute top-0 right-0 text-xs font-medium text-muted">22/02/2024</time>
+                      <span
+                        class="absolute bottom-0 right-0 text-xs font-medium bg-indigo-500 text-white text-circle ">3</span>
+                    </div>
+                  </li>
+                </template>
+              </ul>
+            </div>
+            <template x-for="(list, index) in lists" :key="index">
+              <div class="chat-window" x-show.transition.in.opacity.duration.300ms="isActive(index)"
+                :class="{ 'is-active': isActive(index) }">
+                <div class="chat-window__wrapper">
+                  <!-- chat header -->
+                  <div
+                    class="chat-window__header bg-white px-6 py-2 h-20 flex md:items-center justify-between border-b-2 border-gray-200">
+                    <div class="flex items-center space-x-4">
+                      <div class="cursor-pointer lg:pointer-events-none rounded-full flex items-center  hover:bg-gray-100 pl-2" @click.prevent="(isMobile()) ? removeActive() : ''">
+                        <span class="lg:hidden text-gray-500">
+                          <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                        </span>
+                        <img
+                          src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144"
+                          alt="" class="w-10 h-10 rounded-full">
+                      </div>
+                      <div class="flex flex-col leading-tight">
+                        <div class="mt-1 flex items-center">
+                          <span class="text-lg font-medium text-gray-700 mr-3" x-text="list.name"></span>
+                        </div>
+                        <span class="text-sm text-muted">Junior Developer</span>
+                      </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <button type="button"
+                        class="inline-flex items-center justify-center rounded-full h-10 w-10 transition duration-500 ease-in-out text-gray-500 hover:bg-gray-300 focus:outline-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+                          class="h-6 w-6">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z">
+                          </path>
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="chat-window__messages-wrapper">
+                    <!-- chat msgs  -->
+                    <div class="chat-window__messages-inner">
+                      <div class="chat-messages">
+                        <div class="his-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>Hey How are you today?</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="his-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing
+                                elit. Vel ipsa commodi illum saepe numquam maxime
+                                asperiores voluptate sit, minima perspiciatis.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="my-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text ">
+                              <div>I'm ok what about you?</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="my-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing. ?
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="his-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>Lorem ipsum dolor sit amet !</div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="my-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>
+                                Lorem ipsum dolor sit, amet consectetur adipisicing. ?
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="his-message">
+                          <div class="inner">
+                            <div class="profile">
+                              <img src="https://images.unsplash.com/photo-1549078642-b2ba4bda0cdb?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=3&amp;w=144&amp;h=144" alt="" class="w-10 h-10 rounded-full">
+                            </div>
+                            <div class="ballon-text">
+                              <div>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Perspiciatis, in.
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                      </div>
+                    </div>
+                    <!-- footer envia mensagem -->
+                    <div class="chat-input w-full px-4 mb-4">
+                      <div class="flex flex-row items-center h-16 rounded-xl px-4 bg-white ">
+                        <div>
+                          <button class="flex items-center justify-center text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                            </svg>
+                          </button>
+                        </div>
+                        <div class="flex-grow ml-4">
+                          <div class="relative w-full">
+                            <input type="text" class="flex w-full border rounded-xl focus:outline-none focus:border-indigo-300 pl-4 h-10">
+                          </div>
+                        </div>
+                        <div class="ml-4">
+                          <button class="flex items-center justify-center bg-indigo-500 hover:bg-indigo-600 rounded-xl text-white px-4 py-1 flex-shrink-0">
+                            <span>Enviar</span>
+                            <span class="ml-2">
+                              <svg class="w-4 h-4 transform rotate-45 -mt-px" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                              </svg>
+                            </span>
+                          </button>
+                        </div>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </section>
+        <section x-show.transition.in.opacity.duration.750ms="selected === 'favorites'"
+          :class="{ 'is-active': selected === 'favorites' }">
+          fav
+        </section>
+      </main>
+    </div>
+  </div>
+  </div>
+  <script>
+    function lists() {
+      return {
+        teste: 'arroz',
+        activeChat: false,
+        toggleChat: false,
+        setActive: function(index) {
+          // alert('ola');
+          this.activeChat = index;
+          if(isMobile()) {
+            this.toggleChat = true;
+          }
+        },
+        removeActive: function() {
+          this.activeChat = false;
+          this.toggleChat = false;
+        },
+        isActive: function(index) {
+          return this.activeChat === index
+        },
+        lists: [{
+            id: 1,
+            name: 'Carlos',
+            lastMsg: 'Novas Mensagens',
+          },
+          {
+            id: 2,
+            name: 'Outro User',
+            lastMsg: 'Novas Mensagens'
+          }
+        ]
+      }
+    };
+
+    function isMobile() {
+      return window.matchMedia("(max-width: 1023px)").matches
+    }
+    function firstLetterFromName(name) {
+      if(!name) return false;
+
+      const matches = name.match(/\b(\w)/g);
+      const acronym = matches.join('');
+      return acronym;
+    }
+
+    // Restaure Default Alpine in Tablet e Mobile Redirect
+    window.onresize = function (event) {
+    let data = document.querySelector('#inbox [x-data]');
+      
+    if (window.innerWidth > 1024) {
+        return data.__x.$data.toggleChat = false;
+    } else {
+      return data.__x.$data.toggleChat = (data.__x.$data.activeChat !== false)
+    }
+};
+  </script>
+<script src="js/app.js"></script></body>
+
+</html>
